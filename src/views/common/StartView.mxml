@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark"
+		actionBarVisible="false">
+	<s:VGroup height="100%" width="100%" horizontalAlign="center" verticalAlign="middle">
+		<s:Label text="ION" />
+		<s:Label text="Copyright © 2012 Iridescent" lineBreak="explicit" />
+	</s:VGroup>
+</s:View>

@@ -1,0 +1,44 @@
+<services-config>
+  <services>
+    <service id="amfphp-flashremoting-service"
+                 class="flex.messaging.services.RemotingService"
+                 messageTypes="flex.messaging.messages.RemotingMessage">
+            <destination id="ion-service-dev">
+                <channels>
+                    <channel ref="ion-channel-dev"/>
+                </channels>
+                <properties>
+                    <source>*</source>
+                </properties>
+            </destination>
+            <destination id="ion-service-beta">
+            	<channels>
+                    <channel ref="ion-channel-beta"/>
+                </channels>
+                <properties>
+                    <source>*</source>
+                </properties>
+            </destination>
+            <destination id="ion-service-live">
+            	<channels>
+                    <channel ref="ion-channel-live"/>
+                </channels>
+                <properties>
+                    <source>*</source>
+                </properties>
+            </destination>
+        </service>
+    </services>
+
+    <channels>
+        <channel-definition id="ion-channel-dev" class="mx.messaging.channels.AMFChannel">
+            <endpoint uri="http://192.168.242.209/curiositymachine/services/amfphp" class="flex.messaging.endpoints.AMFEndpoint"/>
+        </channel-definition>
+        <channel-definition id="ion-channel-beta" class="mx.messaging.channels.AMFChannel">
+            <endpoint uri="http://www.beta-attendance.curiositymachine.org//services/amfphp" class="flex.messaging.endpoints.AMFEndpoint"/>
+        </channel-definition>
+        <channel-definition id="ion-channel-live" class="mx.messaging.channels.AMFChannel">
+            <endpoint uri="http://www.attendance.curiositymachine.org/services/amfphp" class="flex.messaging.endpoints.AMFEndpoint"/>
+        </channel-definition>
+    </channels>
+</services-config>

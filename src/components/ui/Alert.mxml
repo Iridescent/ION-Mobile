@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:SkinnablePopUpContainer xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark"
+						   alpha="0.8" creationComplete="OnCreate(event)">
+	<fx:Script>
+		<![CDATA[
+			import infrastructure.helpers.ColorHelper;
+			
+			import mx.events.FlexEvent;
+
+			[Bindable]
+			public var Message:String;
+			[Bindable]
+			public var StrokeColor:uint;
+			[Bindable]
+			public var FillColor:uint;
+			[Bindable]
+			public var MessageColor:uint;
+			
+			protected function OnClick(event:MouseEvent):void
+			{
+				super.close();
+			}
+			
+			protected function OnCreate(event:FlexEvent):void
+			{
+				StrokeColor = ColorHelper.BLACK;
+				FillColor = ColorHelper.WHITE;
+				MessageColor = ColorHelper.BLACK;
+			}
+			
+		]]>
+	</fx:Script>
+	<s:Rect width="100%" height="100%" radiusX="5" radiusY="5">
+		<s:stroke>
+			<s:SolidColorStroke color="{StrokeColor}" />
+		</s:stroke>
+		<s:fill>
+			<s:SolidColor color="{FillColor}" />
+		</s:fill>
+	</s:Rect>
+	
+	<s:VGroup width="100%" height="100%" paddingBottom="10" paddingLeft="10" paddingRight="10" paddingTop="10"
+			  horizontalAlign="center" >
+		<s:VGroup width="100%" height="100%" verticalAlign="middle">
+			<s:Label text="{Message}" width="100%" textAlign="center" color="{MessageColor}" fontWeight="bold" />
+		</s:VGroup>
+		<s:Button label="OK" click="OnClick(event)" width="50%" />
+	</s:VGroup>
+</s:SkinnablePopUpContainer>

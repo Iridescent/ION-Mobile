@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		  xmlns:s="library://ns.adobe.com/flex/spark" width="100%" height="100%">
+	<fx:Declarations>
+		<s:RadioButtonGroup id="variants" selectedValue="@{Context.SelectedOption}" />
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import infrastructure.helpers.ColorHelper;
+			import infrastructure.helpers.CommonHelper;
+			
+			import viewmodel.survey.SurveyReplyItemViewModel;
+			
+			[Bindable]
+			public var Context:SurveyReplyItemViewModel;
+		]]>
+	</fx:Script>
+	
+	<s:Label text="{Context.QuestionTitle}" width="{main.width}" lineBreak="toFit" maxDisplayedLines="3" styleName="black30Label" />
+	<s:Scroller id="main" width="100%" height="100%">
+		<s:VGroup id="container" width="100%" height="100%">
+			<s:Label text="{Context.ScaleMinLabel}" styleName="black30Label"
+					 visible="{!CommonHelper.IsNullOrEmpty(Context.ScaleMinLabel)}"
+					 includeInLayout="{!CommonHelper.IsNullOrEmpty(Context.ScaleMinLabel)}"
+					 width="{container.width - 5}" lineBreak="toFit" maxDisplayedLines="-1" />
+			<s:DataGroup dataProvider="{Context.Variants}" width="100%" alternatingItemColors="{[ColorHelper.BACKGROUND]}">
+				<s:layout>
+					<s:VerticalLayout paddingTop="5" paddingBottom="5" />
+				</s:layout>
+				<s:itemRenderer>
+					<fx:Component>
+						<s:ItemRenderer>
+							<s:HGroup width="100%">
+								<s:RadioButton id="radioBtn" value="{data.weight}" group="{outerDocument.variants}" />
+								<s:Label text="{data.title}" styleName="black30Label" width="{outerDocument.container.width - radioBtn.width - 10}"
+										 lineBreak="toFit" maxDisplayedLines="-1" paddingTop="{radioBtn.height/4}" />
+							</s:HGroup>
+						</s:ItemRenderer>
+					</fx:Component>
+				</s:itemRenderer>
+			</s:DataGroup>
+			<s:Label text="{Context.ScaleMaxLabel}" styleName="black30Label"
+					 visible="{!CommonHelper.IsNullOrEmpty(Context.ScaleMaxLabel)}"
+					 includeInLayout="{!CommonHelper.IsNullOrEmpty(Context.ScaleMaxLabel)}"
+					 width="{container.width - 5}" lineBreak="toFit" maxDisplayedLines="-1" />
+		</s:VGroup>
+	</s:Scroller>
+</s:VGroup>

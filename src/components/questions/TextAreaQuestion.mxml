@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		  xmlns:s="library://ns.adobe.com/flex/spark" width="100%" height="100%" >
+	<fx:Script>
+		<![CDATA[
+			import viewmodel.survey.SurveyReplyItemViewModel;
+			
+			[Bindable]
+			public var Context:SurveyReplyItemViewModel;
+		]]>
+	</fx:Script>
+	
+	<s:Label text="{Context.QuestionTitle}" width="{main.width}" lineBreak="toFit" maxDisplayedLines="3" styleName="black30Label" />
+	<s:Scroller id="main" width="100%" height="100%">
+		<s:VGroup width="100%" horizontalAlign="center" paddingTop="5" paddingBottom="5" paddingLeft="5" paddingRight="5">
+			<s:TextArea text="@{Context.Text}" width="100%" height="100%" />
+		</s:VGroup>
+	</s:Scroller>
+</s:VGroup>

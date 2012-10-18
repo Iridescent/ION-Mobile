@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				xmlns:s="library://ns.adobe.com/flex/spark" width="100%" height="100%">
+	<fx:Script>
+		<![CDATA[
+			import mx.events.ItemClickEvent;
+			[Bindable]
+			public var Title:String;
+			[Bindable]
+			private var ButtonLabel:String;
+			
+			public function set IsReplied(value:Boolean):void
+			{
+				ButtonLabel = value ? "Change" : "Reply";
+			}
+			
+			protected function ItemClickHandler(event:MouseEvent):void
+			{
+				var e:ItemClickEvent = new ItemClickEvent(ItemClickEvent.ITEM_CLICK, true);
+				e.item = data;
+				e.index = itemIndex;
+				dispatchEvent(e);
+			}
+		]]>
+	</fx:Script>
+	
+	<s:HGroup width="100%" verticalAlign="middle" horizontalAlign="center" paddingBottom="5" paddingTop="5" paddingLeft="10" paddingRight="10">
+		<s:VGroup id="title" width="100%">
+			<s:Label text="{Title}" width="{title.width - 5}" lineBreak="toFit" maxDisplayedLines="1" />
+		</s:VGroup>
+		<s:Button label="{ButtonLabel}" click="ItemClickHandler(event)" width="120" />
+	</s:HGroup>
+	
+</s:ItemRenderer>

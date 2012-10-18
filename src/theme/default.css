@@ -1,3 +1,144 @@
 /* CSS file */
 @namespace s "library://ns.adobe.com/flex/spark";
+@namespace itemrenderers "components.ui.itemrenderers.*";
 
+/* Common */
+@font-face
+{
+	src:url("../assets/fonts/Arial Rounded MT Bold.ttf");
+	fontFamily: Arial Rounded MT Bold CFF;
+	embedAsCFF: true;
+}
+
+@font-face
+{
+	src:url("../assets/fonts/Arial Rounded MT Bold.ttf");
+	fontFamily: Arial Rounded MT Bold;
+	embedAsCFF: false;
+}
+
+/* Action Bar */
+s|ActionBar
+{
+	color: #ffffff;
+	titleAlign: center;
+	defaultButtonAppearance: beveled;
+}
+
+s|ActionBar#titleDisplay
+{
+	fontSize: 36px;
+	fontFamily: Arial Rounded MT Bold CFF;
+}
+
+/* Button */
+s|Button
+{
+	skinClass: ClassReference("components.skins.IONButtonSkin");
+	fontSize: 34px;
+}
+
+s|Button#labelDisplay
+{
+	fontFamily: Arial Rounded MT Bold CFF;
+}
+
+/* Text Input */
+s|TextInput
+{
+	/*skinClass: ClassReference("components.skins.IONTextInputSkin");*/
+	contentBackgroundColor: #ededed;
+	/*fontFamily: Arial Rounded MT Bold CFF;*/
+	fontSize: 30px;
+	fontWeight: bold;
+	color: #111111;
+	focusColor: #111111;
+	paddingLeft: 15px;
+	paddingRight: 15px;
+}
+
+s|TextInput#promptDisplay
+{
+	/*fontFamily: Arial Rounded MT Bold CFF;*/
+	fontSize: 30px;
+}
+
+/* Item Renderer */
+itemrenderers|ClickableItemRenderer
+{
+	fontFamily: Arial Rounded MT Bold;
+	color: #515151;
+	fontSize: 30px;
+}
+
+itemrenderers|ClickableItemRenderer#messageDisplay
+{
+	fontFamily: Arial Rounded MT Bold;
+}
+
+/* red */
+.red30Label
+{
+	color: #fe0000;
+	fontSize: 30px;
+	fontFamily: Arial Rounded MT Bold CFF;
+}
+
+.red40Label
+{
+	color: #fe0000;
+	fontSize: 40px;
+	fontFamily: Arial Rounded MT Bold CFF;
+}
+
+/* gray */
+.gray30Label
+{
+	color: #515151;
+	fontSize: 30px;
+	fontFamily: Arial Rounded MT Bold CFF;
+}
+
+/* black */
+.black30Label
+{
+	color: #111111;
+	fontSize: 30px;
+	fontFamily: Arial Rounded MT Bold CFF;
+}
+
+.black40Label
+{
+	color: #111111;
+	fontSize: 40px;
+	fontFamily: Arial Rounded MT Bold CFF;
+}
+
+.black50Label
+{
+	color: #111111;
+	fontSize: 50px;
+	fontFamily: Arial Rounded MT Bold CFF;
+}
+
+.black72Label
+{
+	color: #111111;
+	fontSize: 72px;
+	fontFamily: Arial Rounded MT Bold CFF;
+}
+
+.black140Label
+{
+	color: #111111;
+	fontSize: 140px;
+	fontFamily: Arial Rounded MT Bold CFF;
+}
+
+/* misc */
+.profileLabel
+{
+	fontFamily: Arial Rounded MT Bold CFF;
+	fontSize: 20px;
+	color: #ffffff;
+}

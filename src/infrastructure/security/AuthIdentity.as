@@ -15,10 +15,21 @@ package infrastructure.security
 			return instance;
 		}
 		
-		public function AuthIdentity()
+		private var profile:Person;
+		
+		public function CheckIn(profile:Person):void
 		{
+			this.profile = profile;
 		}
 		
-		public var Profile:Person;
+		public function CheckOut():void
+		{
+			this.profile = null;
+		}
+
+		public function get Profile():Person
+		{
+			return profile;
+		}
 	}
 }

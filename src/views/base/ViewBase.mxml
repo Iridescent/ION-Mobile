@@ -1,7 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
-		xmlns:s="library://ns.adobe.com/flex/spark" title="ViewBase">
-	<fx:Declarations>
-		<!-- Place non-visual elements (e.g., services, value objects) here -->
-	</fx:Declarations>
+		xmlns:s="library://ns.adobe.com/flex/spark" backgroundAlpha="0" xmlns:partial="views.partial.*"
+		addedToStage="OnAddedToStage(event)" removedFromStage="OnRemovedFromStage(event)">
+	<fx:Script>
+		<![CDATA[
+			import components.ui.ConnectionLostPopup;
+			
+			import infrastructure.events.ServiceCallEvent;
+			import infrastructure.helpers.Mediator;
+			import infrastructure.helpers.ViewType;
+			import infrastructure.helpers.VisualHelper;
+			import infrastructure.security.AuthIdentity;
+			
+			protected function OpenAlert(message:String, OnAlertClose:Function):void
+			{
+				var width:Number = stage.stageWidth - 40;
+				var height:Number = width / 2;
+				width = width > 400 ? 400 : width;
+				VisualHelper.OpenAlert(message, OnAlertClose, this, width, height, (stage.stageWidth - width)/2, navigator.actionBar.height + 25);
+			}
+			
+			protected function OpenConfirmation(message:String, OnConfirmationClose:Function):void
+			{				
+				var width:Number = stage.stageWidth - 40;
+				width = width > 600 ? 400 : width;
+				var height:Number = width / 2;
+				VisualHelper.OpenConfirmation(message, OnConfirmationClose, this, width, height, (stage.stageWidth - width)/2, navigator.actionBar.height + 25);
+			}
+			
+			protected function OnAddedToStage(event:Event):void
+			{
+				Mediator.Instance.AddEventListener(ServiceCallEvent.ERROR, OnServiceCallError);
+			}
+			
+			protected function OnRemovedFromStage(event:Event):void
+			{
+				Mediator.Instance.RemoveEventListener(ServiceCallEvent.ERROR, OnServiceCallError);
+			}
+			
+			protected function get type():int
+			{
+				return ViewType.Any;
+			}
+			
+			private var lostConnection:ConnectionLostPopup;
+			private function OnServiceCallError(event:ServiceCallEvent):void
+			{
+				switch(type)
+				{
+					case ViewType.CheckIn:
+					{
+						return;
+					}
+					case ViewType.SurveyReply:
+					{
+						navigator.popView();
+						return;
+					}
+				}
+				
+				if (lostConnection == null)
+				{
+					var width:Number = stage.stageWidth - 40;
+					var height:Number = width / 4;
+					width = width > 500 ? 500 : width;
+					var x:Number = (stage.stageWidth - width)/2;
+					var y:Number = stage.stageHeight - height - 10;
+					
+					lostConnection = new ConnectionLostPopup();
+					lostConnection.width = width;
+					lostConnection.height = height;
+					lostConnection.x = x;
+					lostConnection.y = y;
+					lostConnection.open(owner);
+					
+					var timer:Timer = new Timer(1000*3, 1);
+					timer.addEventListener(TimerEvent.TIMER, onTimer);
+					timer.start();
+				}
+			}
+			
+			private function onTimer(e:TimerEvent):void
+			{
+				lostConnection.close();
+				lostConnection = null;
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<s:actionContent>
+		<partial:ProfilePartialView width="100%" />
+	</s:actionContent>
 </s:View>

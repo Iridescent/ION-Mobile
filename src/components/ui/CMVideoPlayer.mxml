@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" width="100%" height="100%">
+	<fx:Script>
+		<![CDATA[
+			[Bindable]
+			private var isVideoRunning:Boolean;
+			[Bindable]
+			public var Source:Object;
+
+			protected function VideoClick(event:MouseEvent):void
+			{
+				if (isVideoRunning)
+				{
+					videoDisplay.pause();
+				}
+				else
+				{
+					videoDisplay.play();
+				}
+				isVideoRunning = !isVideoRunning;				
+			}			
+		]]>
+	</fx:Script>
+	
+	<s:BorderContainer width="100%" height="100%" cornerRadius="8">
+		<s:VGroup width="100%" height="100%" paddingTop="5" paddingBottom="5" paddingLeft="5" paddingRight="5">
+			<s:Group width="100%" height="100%" click="VideoClick(event)">
+				<s:VideoDisplay id="videoDisplay" source="{Source}" scaleMode="letterbox" width="100%" height="100%" autoPlay="false" />
+				<s:VGroup width="100%" height="100%" verticalAlign="middle" horizontalAlign="center" visible="{!isVideoRunning}">
+					<s:Image source="@Embed('assets/icon-play.png')" />
+				</s:VGroup>
+			</s:Group>
+		</s:VGroup>
+	</s:BorderContainer>
+</s:Group>

@@ -2,7 +2,7 @@
 	<compiler>
 		<define append="true">
 			<name>CONFIG::release</name>
-			<value>false</value>
+			<value>true</value>
 		</define>
 		<define append="true">
 			<name>CONFIG::debug</name>

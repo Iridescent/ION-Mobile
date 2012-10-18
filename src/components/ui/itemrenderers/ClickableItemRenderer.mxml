@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:IconItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					xmlns:s="library://ns.adobe.com/flex/spark" click="ItemClickHandler(event)" updateComplete="OnUpdateComplete(event)">
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+			import mx.events.ItemClickEvent;
+			
+			public var messageColorFunction:Function;
+			
+			protected function ItemClickHandler(event:MouseEvent):void
+			{
+				var e:ItemClickEvent = new ItemClickEvent(ItemClickEvent.ITEM_CLICK, true);
+				e.item = data;
+				e.index = itemIndex;
+				dispatchEvent(e);
+			}
+			
+			protected function OnUpdateComplete(event:FlexEvent):void
+			{
+				if (messageColorFunction != null)
+				{
+					this.messageDisplay.textColor = messageColorFunction(data);
+				}
+			}
+			
+			override protected function createChildren():void
+			{
+				super.createChildren();
+				labelDisplay.multiline = true;
+				labelDisplay.wordWrap = true;
+			}
+			
+		]]>
+	</fx:Script>
+</s:IconItemRenderer>

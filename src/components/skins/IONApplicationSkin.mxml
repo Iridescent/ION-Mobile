@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark">
+	<!-- host component -->
+	<fx:Metadata>
+		[HostComponent("spark.components.ViewNavigatorApplication")]
+	</fx:Metadata>
+	
+	<!-- states -->
+	<s:states>
+		<s:State name="landscapeAndOverlay" />
+		<s:State name="portraitAndOverlay" />
+		<s:State name="landscape" />
+		<s:State name="portrait" />
+		<s:State name="disabled" />
+		<s:State name="normal" />
+	</s:states>
+	
+	<s:BitmapImage width="100%" height="100%" source="@Embed('assets/repeat-bg.png')"/>    
+	<s:Group id="contentGroup" width="100%" height="100%" minWidth="0" minHeight="0" />    
+	<s:ViewNavigator id="navigator" width="100%" height="100%" />
+</s:Skin>

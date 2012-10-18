@@ -1,4 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
 <base:ViewBase xmlns:fx="http://ns.adobe.com/mxml/2009" 
-			   xmlns:s="library://ns.adobe.com/flex/spark" xmlns:base="views.base.*">
+			   xmlns:s="library://ns.adobe.com/flex/spark" xmlns:base="views.base.*" title="  What do{'\n'}you know?"
+			   creationComplete="OnCreate(event)" viewActivate="OnViewActivate(event)" xmlns:ui="components.ui.*" xmlns:itemrenderers="components.ui.itemrenderers.*" xmlns:partial="views.partial.*">
+	<fx:Script>
+		<![CDATA[			
+			import infrastructure.helpers.ColorHelper;
+			import infrastructure.helpers.VisualHelper;
+			
+			import mx.events.FlexEvent;
+			import mx.events.ItemClickEvent;
+			
+			import spark.events.PopUpEvent;
+			import spark.events.ViewNavigatorEvent;
+			
+			import viewmodel.survey.SurveyListViewModel;
+			
+			[Bindable]
+			private var viewModel:SurveyListViewModel;
+			
+			protected function OnCreate(event:FlexEvent):void
+			{
+				surveyList.addEventListener(ItemClickEvent.ITEM_CLICK, ItemClickEventHandler);
+				viewModel = new SurveyListViewModel();
+			}
+			
+			protected function OnViewActivate(event:ViewNavigatorEvent):void
+			{
+				viewModel.Load(false);
+			}
+			
+			protected function OnMoreClick(event:MouseEvent):void
+			{
+				viewModel.Load(false);
+			}
+			
+			protected function OnRefreshClick(event:MouseEvent):void
+			{
+				viewModel.Load(true);
+			}
+			
+			protected function ItemClickEventHandler(evt:ItemClickEvent):void
+			{
+				viewModel.Reply(evt.item);
+			}
+			
+			protected function OnCheckOutClick(event:MouseEvent):void
+			{
+				OpenConfirmation(VisualHelper.LOGOUT_CONFIRMATION_MESSAGE, OnCheckOutConfirmationClose);
+			}
+			
+			private function OnCheckOutConfirmationClose(event:PopUpEvent):void
+			{
+				if (event.commit)
+				{
+					viewModel.CheckOut();
+				}
+			}
+		]]>
+	</fx:Script>
+	<base:navigationContent>
+		<s:Button label="Exit" click="OnCheckOutClick(event)" />
+	</base:navigationContent>
+	<base:actionContent>
+		<s:HGroup width="100%" verticalAlign="middle" paddingLeft="5" paddingRight="5">
+			<partial:ProfilePartialView />
+			<s:Image source="@Embed('assets/icon-refresh.png')" click="OnRefreshClick(event)"
+					 visible="{!viewModel.Loading}" includeInLayout="{!viewModel.Loading}" />
+			<s:BusyIndicator width="48" height="48" symbolColor="0xffffff"
+							 visible="{viewModel.Loading}" includeInLayout="{viewModel.Loading}" />
+		</s:HGroup>
+	</base:actionContent>
+	
+	<s:VGroup width="100%" height="100%" verticalAlign="middle" horizontalAlign="center">
+		<s:List id="surveyList" dataProvider="{viewModel.SurveyList}"
+				width="100%" height="100%" verticalScrollPolicy="auto" labelField="Title" contentBackgroundColor="{ColorHelper.BACKGROUND}">
+			<s:itemRenderer>
+				<fx:Component>
+					<itemrenderers:ClickableItemRenderer labelField="Title" messageFunction="messageCompleted" messageColorFunction="messageColor"
+														 decorator="@Embed('assets/icon-arrow-2.png')" alternatingItemColors="{[ColorHelper.BACKGROUND]}">
+						<fx:Script>
+							<![CDATA[
+								import infrastructure.helpers.ColorHelper;
+								private function messageCompleted(item:Object):String
+								{
+									if (item.SurveyReplyId > 0)
+									{
+										return item.IsCompleted ? "completed" : "in progress";
+									}
+									return "";
+								}
+								
+								private function messageColor(item:Object):uint
+								{
+									return item.IsCompleted ? ColorHelper.COMPLETED : ColorHelper.INPROGRESS;
+								}
+							]]>
+						</fx:Script>
+					</itemrenderers:ClickableItemRenderer>
+				</fx:Component>
+			</s:itemRenderer>
+		</s:List>
+		<s:VGroup width="100%" horizontalAlign="right" visible="{viewModel.MoreVisible}" includeInLayout="{viewModel.MoreVisible}">
+			<s:Label click="OnMoreClick(event)" text="more..." styleName="black30Label"
+					 paddingTop="10" paddingBottom="10" paddingLeft="10" paddingRight="10" />
+		</s:VGroup>
+	</s:VGroup>
 </base:ViewBase>

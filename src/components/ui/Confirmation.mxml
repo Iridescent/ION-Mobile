@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:SkinnablePopUpContainer xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark" alpha="0.8" creationComplete="OnCreate(event)">
+	<fx:Script>
+		<![CDATA[			
+			import infrastructure.helpers.ColorHelper;
+			
+			import mx.events.FlexEvent;
+			
+			import spark.events.PopUpEvent;
+			
+			[Bindable]
+			public var Message:String;
+			[Bindable]
+			public var YesButtonText:String = "Yes";
+			[Bindable]
+			public var NoButtonText:String = "No";
+			[Bindable]
+			public var StrokeColor:uint;
+			[Bindable]
+			public var FillColor:uint;
+			[Bindable]
+			public var MessageColor:uint;
+			
+			private function OnClick(commit:Boolean):void
+			{
+				super.close(commit);
+			}
+			
+			protected function OnCreate(event:FlexEvent):void
+			{
+				StrokeColor = ColorHelper.BLACK;
+				FillColor = ColorHelper.BACKGROUND;
+				MessageColor = ColorHelper.BLACK;
+			}
+			
+		]]>
+	</fx:Script>
+	<s:Rect width="100%" height="100%" radiusX="10">
+		<s:stroke>
+			<s:SolidColorStroke color="{StrokeColor}"/>
+		</s:stroke>
+		<s:fill>
+			<s:SolidColor color="{FillColor}"/>
+		</s:fill>
+	</s:Rect>
+	
+	<s:VGroup width="100%" height="100%" horizontalAlign="center" paddingBottom="10" paddingLeft="10" paddingRight="10" paddingTop="10">
+		<s:VGroup width="100%" height="100%" verticalAlign="middle">
+			<s:Label width="100%" color="{MessageColor}" text="{Message}" textAlign="center" fontWeight="bold" />
+		</s:VGroup>
+		<s:HGroup width="100%">
+			<s:Button width="50%" label="{YesButtonText}" click="OnClick(true)" />
+			<s:Button width="50%" label="{NoButtonText}" click="OnClick(false)" />
+		</s:HGroup>
+	</s:VGroup>
+</s:SkinnablePopUpContainer>

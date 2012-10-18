@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <base:ViewBase xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark" xmlns:base="views.base.*"
-			   creationComplete="OnCreate(event)">
+			   creationComplete="OnCreate(event)" title="Learning Tracker" viewActivate="OnViewActivate(event)">
 	
 	<fx:Script>
 		<![CDATA[
+			import infrastructure.helpers.ViewType;
+			
 			import mx.events.FlexEvent;
+			
+			import spark.events.TextOperationEvent;
+			import spark.events.ViewNavigatorEvent;
 			
 			import viewmodel.common.CheckInViewModel;
 			
@@ -15,15 +20,48 @@
 			{
 				viewModel = new CheckInViewModel();
 			}
-			
-			protected function OnCheckInClick(event:MouseEvent):void
+
+			protected function OnBarcodeChanged(event:TextOperationEvent):void
 			{
-			}			
+				if (event.target.text.length >= 6)
+				{		
+					viewModel.CheckIn(onAfterCheckIn);
+				}	
+			}
+			
+			private function onAfterCheckIn(result:Boolean):void
+			{
+				if (result)
+				{
+					stage.focus = null;
+				}
+				else
+				{
+					barcodeTextInput.setFocus();
+				}
+			}
+			
+			protected function OnViewActivate(event:ViewNavigatorEvent):void
+			{
+				barcodeTextInput.setFocus();
+			}
+			
+			override protected function get type():int
+			{
+				return ViewType.CheckIn;
+			}
 		]]>
 	</fx:Script>
-	
-	<s:VGroup width="100%" height="100%" verticalAlign="middle" horizontalAlign="center">
-		<s:TextInput text="{viewModel.BarcodeID}" prompt="Type Barcode ID" />
-		<s:Button label="Check In" click="OnCheckInClick(event)" />
+
+	<s:VGroup width="100%" height="100%" horizontalAlign="center" paddingTop="40" paddingLeft="10" paddingRight="10" gap="20">
+		<s:VGroup width="100%" horizontalAlign="center" visible="{viewModel.FirstAttempt}" includeInLayout="{viewModel.FirstAttempt}">
+			<s:Label text="Please enter your Barcode" styleName="gray30Label" />
+			<s:Label text="to Access the Survey" styleName="gray30Label" />
+		</s:VGroup>
+		<s:VGroup width="100%" horizontalAlign="center" visible="{!viewModel.FirstAttempt}" includeInLayout="{!viewModel.FirstAttempt}">
+			<s:Label text="{viewModel.Error}" styleName="red30Label" visible="{!viewModel.IsValid}" />
+			<s:Label text="Please try again" styleName="red30Label" visible="{!viewModel.IsValid}" />
+		</s:VGroup>
+		<s:TextInput id="barcodeTextInput" text="@{viewModel.BarcodeID}" width="100%" restrict="0-9" maxChars="6" change="OnBarcodeChanged(event)" />
 	</s:VGroup>
 </base:ViewBase>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		  xmlns:s="library://ns.adobe.com/flex/spark" width="100%" height="100%" xmlns:ui="components.ui.*">
+	<fx:Script>
+		<![CDATA[
+			import components.media.VideoPicker;
+			
+			import viewmodel.survey.SurveyReplyItemViewModel;
+			
+			[Bindable]
+			public var Context:SurveyReplyItemViewModel;
+			
+			protected function OnBrowseClick(event:MouseEvent):void
+			{
+				var videoPicker:VideoPicker = new VideoPicker();
+				videoPicker.Pick(Context.PickVideo);
+			}
+			
+			protected function OnRemoveClick(event:MouseEvent):void
+			{
+				Context.RemoveVideo();
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<s:Label text="{Context.QuestionTitle}" width="{main.width}" lineBreak="toFit" maxDisplayedLines="3" styleName="black30Label" />
+	<s:Scroller id="main" width="100%" height="100%">
+		<s:VGroup width="100%" horizontalAlign="center">
+			<s:TextInput width="100%" editable="false" text="{Context.Media.VideoName}" />
+			<s:Button label="browse" click="OnBrowseClick(event)" visible="{!Context.Media.IsVideoAdded}" includeInLayout="{!Context.Media.IsVideoAdded}" />
+			<s:Button label="remove" click="OnRemoveClick(event)" visible="{Context.Media.IsVideoAdded}" includeInLayout="{Context.Media.IsVideoAdded}" />
+			<ui:CMVideoPlayer width="100%" height="{this.width/2}" Source="{Context.Media.VideoFileUrl}"
+							  visible="{Context.Media.VideoFileUrl != null}" includeInLayout="{Context.Media.VideoFileUrl != null}" />
+		</s:VGroup>
+	</s:Scroller>
+</s:VGroup>

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<base:ViewBase xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:base="views.base.*"
+			   xmlns:s="library://ns.adobe.com/flex/spark" xmlns:ui="components.ui.*" xmlns:mx="library://ns.adobe.com/flex/mx"
+			   title="{viewModel.SurveyTitle}" creationComplete="OnCreate(event)" viewActivate="OnViewActivate(event)"> 
+	<fx:Script>
+		<![CDATA[
+			import infrastructure.helpers.ColorHelper;
+			import infrastructure.helpers.ViewType;
+			
+			import model.entity.query.QuerySurvey;
+			
+			import mx.events.FlexEvent;
+			
+			import spark.events.ViewNavigatorEvent;
+			
+			import viewmodel.survey.SurveyReplyViewModel;
+			
+			[Bindable]
+			private var viewModel:SurveyReplyViewModel;
+			
+			protected function OnCreate(event:FlexEvent):void
+			{
+				viewModel = new SurveyReplyViewModel(questionStage);
+			}
+			
+			private var isActivated:Boolean;
+			protected function OnViewActivate(event:ViewNavigatorEvent):void
+			{
+				if (!isActivated)
+				{
+					isActivated = true;
+					var querySurvey:QuerySurvey = data as QuerySurvey
+					if (querySurvey != null)
+					{
+						viewModel.Load(querySurvey.SurveyId, querySurvey.SurveyReplyId, querySurvey.Title);
+					}
+				}
+			}
+			
+			protected function OnPrevClick(event:MouseEvent):void
+			{
+				viewModel.Prev();
+			}
+			
+			protected function OnNextClick(event:MouseEvent):void
+			{
+				viewModel.Next();
+			}
+			
+			protected function OnBackClick(event:MouseEvent):void
+			{
+				viewModel.Back();
+			}
+			
+			override protected function get type():int
+			{
+				return ViewType.SurveyReply;
+			}
+		]]>
+	</fx:Script>
+	
+	<base:navigationContent>
+		<s:Button label="Back" click="OnBackClick(event)" />
+	</base:navigationContent>
+	
+	<s:VGroup width="100%" height="100%" paddingBottom="10" paddingTop="10" paddingLeft="10" paddingRight="10">
+		<s:HGroup width="100%" verticalAlign="middle" horizontalAlign="center" paddingBottom="10" paddingTop="10" gap="0">
+			<s:Label text="Question {viewModel.Current}" styleName="black40Label" />
+			<s:Label text="*" styleName="red40Label" visible="{viewModel.Required}" />
+			<s:Label text="of {viewModel.Total}" styleName="black40Label" />
+		</s:HGroup>
+		<ui:HorizontalLine Color="{ColorHelper.BLACK}" width="100%" />
+		<s:VGroup width="100%" height="100%" horizontalAlign="center" verticalAlign="middle"
+				  visible="{viewModel.Loading}" includeInLayout="{viewModel.Loading}">
+			<s:BusyIndicator rotationInterval="100" />
+		</s:VGroup>
+		<s:VGroup id="main" width="100%" height="100%" visible="{!viewModel.Loading}" includeInLayout="{!viewModel.Loading}" gap="15" horizontalAlign="center">
+			<mx:UIComponent id="questionStage" width="100%" height="100%" />
+		</s:VGroup>
+		<s:HGroup width="100%" verticalAlign="middle" horizontalAlign="center">
+			<s:Label text="{viewModel.Error}" styleName="red30Label" />
+		</s:HGroup>
+		<s:HGroup width="100%" verticalAlign="middle" horizontalAlign="center" gap="50">
+			<s:Button label="Prev" click="OnPrevClick(event)" enabled="{!viewModel.Loading}" width="35%"
+					  visible="{viewModel.PrevButtonVisible}" />
+			<s:Button label="{viewModel.NextButtonLabel}" click="OnNextClick(event)" enabled="{!viewModel.Loading}" width="35%" />
+		</s:HGroup>
+	</s:VGroup>
+</base:ViewBase>
